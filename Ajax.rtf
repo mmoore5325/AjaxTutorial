@@ -1,0 +1,112 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.15063}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 A - Asynchronous\line J - Javscript\line A\line X - XMLHtppRequest\par
+\par
+Opening a new request, sending it, or receiving a response triggers a "state change" in the ajax request.  When that number == 4, the server sends back a response.\par
+The XML http request object keeps track of the state using a special property named ready state.  That property keeps track of the current number of the ready state.\par
+4 Steps of AJAX Example\par
+1) Create an XMLHTTPRequst object.\par
+2) Create callback function\par
+3) Open a request\par
+4) Send the request\par
+Example:\par
+var xhr = new XMLHttpRequest();\par
+    xhr.onreadystatechange = function ()\{\par
+        if(xhr.readyState === 4)\{\par
+            document.getElementById('nameOfDiv').innerHTML = xhr.responseText;\par
+        \}\par
+    \};\par
+ xhr.open('GET', 'index.html');\tab <----- Prepares browser for opening a request.  GET sends a \tab\tab\tab\tab\tab request for data.  POST if you're sending the data, like forms \tab\tab\tab\tab\tab to put in DB.  There is also PUT and DELETE.\par
+xhr.send();\par
+\par
+  <script>\par
+    var xhr = new XMLHttpRequest();\par
+    xhr.onreadystatechange = function()\{\par
+      if(xhr.readyState === 4)\{\par
+        document.getElementById('ajax').innerHTML = xhr.responseText;\par
+        console.log("It equals 4");\par
+      \}\par
+    \};\par
+    xhr.open('GET', 'sidebar.html');\par
+    xhr.send();\par
+  </script>\par
+\b GET vs POST\par
+\b0 GET = Use when retrieving information from the server\par
+POST = Use when we want to put information in a database\par
+When you go to a webpage, you are sending GET's\par
+When you post to a forum, you are sending POST's\par
+\par
+http:/website.com/employees.php?lastname=Jones\par
+"lastName=Jones" is a query string.  Provides a way to send additional info that a webserver can use to control the output of its response.  Commonly, data in QS is used to search a database of info and return just a single or small subset of information.  In this, its using PHP, which is programming, not html. \par
+A Query String is made up of value pairs.  In this example, it has a value pair.  Query Strings can hold multiple value pairs by adding ampersands(&).  \par
+http:/website.com/employees.php?firstname=Mike&lastname=Jones\par
+Some requirements, you can't use any symbol.  Some characters have special meaning.  &, space, and + have special meanings and have to be put in special ways.\par
+Ampersands = %26\par
+Space = +\par
++ = %2B\par
+Check out {{\field{\*\fldinst{HYPERLINK www.ur-encode-decode.com }}{\fldrslt{www.ur-encode-decode.com\ul0\cf0}}}}\f0\fs22  and play with it to see how the browser will process and convert different things you type in.\par
+\par
+The GET method is a simple way to send data to a webserver, however, there is downsides.  It is in the URL, so if it is sensitive data, it will appear in the browsing history and webservers log files. \par
+Second, there is only so much information you can put in a URL string.  For eample, IE, can only handle URLs that are 2083 characters log.  For long things, like Blog posts, this isn't feasible.\par
+This is where \b POST\b0  comes handy.\line\line POST method sends data differently.  Where GET sends all the data in the URL, the POST method sends data seperate from the URL in what is called the 'body' of the request.\par
+For instance, in a username in password, you would want to use a POST rather than a GET so it wouldn't appear in browser as its more secure.\par
+POST method requires special encoding just like GET.\par
+In addition, you have to setup a special header, where you tell the server what kind of data to expect.\par
+In many cases, you can use GET or POST.  Typically, when you are wanting to get search results, add photos to a page, new HTML to add to a page, or any other request of information, use GET.\par
+If you are sending information to be stored somewhere, or dealing with sensitive information, use POST.\par
+\par
+\b AJAx Response Formats\par
+\b0 AJAX usually receives a response from the webserver in some kind of text format.\par
+For instance, say your submitting a form.  Once you hit submit, instead of exiting the page, you use AJAX to send info to the server, the web server could send a response saying "Info received" or "Error, try again" without leaving the web page.  Or you can request a static file, such as one sitting on your webserver, like the first example did.\par
+However, when you get alot of results, you need a way to handle all of that information.\par
+With this, you want a structuerd data format.\par
+2 common data interchange formats that you will deal with are \b XML \b0 and\b  JSON\par
+XML = Extensible Markup Language\par
+\tab similar to HTML, uses tags to structure data.\par
+<contacts>\par
+  <contact>\par
+      <name> Mike</name>\par
+      <phone>304-555-5555</phone>\par
+  </contact>\par
+  <contact>\par
+      <name> Matt</name>\par
+      <phone>666-666-6666</phone>\par
+  </contact>\par
+</contacts>\b0\par
+\par
+\b Parsing = \b0 Process of breaking  a file up into easily accessed parts.\par
+Most server side languages handle XML easily, however, javascript doesn't.\par
+For many AJAX applications, JSON is better and has become the most popular way to exchange AJAX requests.\par
+========================================================================\par
+\b AJAX Security Limitations\par
+\b0 Ajax is normally limited by a web browsers "same origin policy" which controls how JavaScript can access content from a webserver.\par
+In General you can use ajax to communicate from one page to another on the same webserver, but not to access other web servers(I believe its called CORS, look it up).\par
+For example, say you have Ajax code on {{\field{\*\fldinst{HYPERLINK www.myserver.com }}{\fldrslt{www.myserver.com\ul0\cf0}}}}\f0\fs22 , you can use Ajax to talk to a php file on that server.  You can also talk to files on the same server within subfolders.\par
+However, you will run into problems when requesting data from another website.  That is not from the same origin and is forbidden. \par
+\b Switching Protocol - \b0 If you try to make an AJAX request  to {{\field{\*\fldinst{HYPERLINK https://www.myserver.com }}{\fldrslt{https://www.myserver.com\ul0\cf0}}}}\f0\fs22 , the broswer won't allow it.  You can't switch from HTTP to HTTPS.  \line Switching ports is also not allowed, like going from port 80 to port 8080 is not allowed.\par
+\b Switching Hosts - \b0 An AJAX request located at {{\field{\*\fldinst{HYPERLINK www.myserver.com }}{\fldrslt{www.myserver.com\ul0\cf0}}}}\f0\fs22  can't talk to {{\field{\*\fldinst{HYPERLINK www.db.myserver.com }}{\fldrslt{www.db.myserver.com\ul0\cf0}}}}\f0\fs22 , even though the two share the same domain, they are different hosts.\par
+This limitation shouldn't cause you any trouble when dealing with your own site, but when trying to load google maps, or photos from some other site, they are in different domains.\par
+This is where you would create a \b web proxy\b0 .  Web servers aren't limited by same origin policy.  So a web server can request data from different domains.\par
+You can set up a script in PHP or Ruby on your server that asks for info from another server.\par
+Then you can use AJAX to talk to the script on your site, which talks to the script on the other site, then returns data to your page.  This makes sure the ajax stays within the same origin policy.\par
+\b JSONP - \b0 JSON with padding.\par
+Not traditional AJAX.  Relies on ability to link JavaScript files across domains.\par
+Browsers allow many types of cross domain links, such as photos, or css, or javascript.\par
+Linking to JS a common technique when working with popular JS libraries, such as React or Jquery.\par
+This is how CDN's, or Content Delivery Networks, operate, like linking to Google to load the Jquery library.\par
+JSONP relies on this feature.  Instead of actually using AJAX to contact a webserver, you load a JS file from another site.  This is OK with the web browser.  The JS file contains the info you're after, such as the Google Map.\par
+Jquery provides a really easy way to use JSONP\par
+\b CORS - \b0 Cross-Origin Resource Sharing\par
+W3C Recommendation already implemented in most current browsers.\par
+It does require some setup on the servers part, but allows server to accept requests from other domains.  Even allows for more complex types of authentication that require web browser to supply credentials before the web server will provide any information.\par
+\b Ajax doesn't work unless your viewing your page throug a webserver.\par
+\b0 If you build a webpage on your computer, then open it up in your web browser, AJAX will give you an error.  Need to be using a framework, like Sinatra.\b\par
+\b0 ========================================================================\par
+\par
+\par
+\par
+\par
+\par
+}
+ 
